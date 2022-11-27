@@ -35,9 +35,9 @@ spec:
               value: "development"
             - name: AUTH_MS_HOST
               valueFrom:
-              configMapKeyRef:
-                name: sportapp-config-map
-                key: AUTH_MS_HOST
+                configMapKeyRef:
+                  name: sportapp-config-map
+                  key: AUTH_MS_HOST
             - name: AUTH_MS_PORT
               valueFrom:
                 configMapKeyRef:
