@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: development
+  name: ms-evento
+  labels:
+    app: ms-evento
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-evento
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ms-evento
+    spec:
+      containers:
+        - name: contenendor-ms-evento
+          image: IMAGE
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "350m"
+          ports:
+            - containerPort: 3030
+          env:
+            - name: NODE_ENV
+              value: "development"
+            - name: AUTH_MS_HOST
+              valueFrom:
+              configMapKeyRef:
+                name: sportapp-config-map
+                key: AUTH_MS_HOST
+            - name: AUTH_MS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: sportapp-config-map
+                  key: AUTH_MS_PORT
+            - name: MS_CATALOGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: sportapp-config-map
+                  key: MS_CATALOGO_HOST
+            - name: MS_CATALOGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: sportapp-config-map
+                  key: MS_CATALOGO_PORT
+            - name: USER_MS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: sportapp-config-map
+                  key: USER_MS_HOST
+            - name: USER_MS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: sportapp-config-map
+                  key: USER_MS_PORT
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sportapp-secrets
+                  key: POSTGRES_USER
+                  optional: false
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sportapp-secrets
+                  key: POSTGRES_PASSWORD
+                  optional: false
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: sportapp-secrets
+                  key: POSTGRES_HOST
+                  optional: false
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: sportapp-secrets
+                  key: POSTGRES_PORT
+                  optional: false
+          # Realizar pull siempre a la imagen
+          imagePullPolicy: Always
+      serviceAccountName: ksa-dev-sportapp
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: sportapp-evento-backendconfig
+spec:
+  timeoutSec: 65
+  healthCheck:
+    checkIntervalSec: 10
+    timeoutSec: 3
+    requestPath: /evento/health
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: development
+  name: service-ms-evento
+  annotations:
+    cloud.google.com/backend-config: '{"default": "sportapp-evento-backendconfig"}'
+spec:
+  type: NodePort
+  selector:
+    app: ms-evento
+
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3030
