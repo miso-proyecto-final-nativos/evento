@@ -60,7 +60,7 @@ export class EventoController {
   }
 
   // @UseGuards(AuthGuard)
-  @Post(':idEvento')
+  @Post()
   async create(
     @Param('idEvento') idEvento: number,
     @Body() eventoDto: EventoDto,
