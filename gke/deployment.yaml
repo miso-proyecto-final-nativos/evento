@@ -94,6 +94,7 @@ spec:
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
+  namespace: development
   name: sportapp-evento-backendconfig
 spec:
   timeoutSec: 65
@@ -110,10 +111,9 @@ metadata:
   annotations:
     cloud.google.com/backend-config: '{"default": "sportapp-evento-backendconfig"}'
 spec:
-  type: NodePort
+  type: ClusterIp
   selector:
     app: ms-evento
-
   ports:
     - protocol: TCP
       port: 80
