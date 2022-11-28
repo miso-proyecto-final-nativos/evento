@@ -62,6 +62,7 @@ export class EventoService {
       );
     }
     evento.idEvento = idEvento;
+    console.log(evento);
     return await this.eventoRepository.save(evento);
   }
 
