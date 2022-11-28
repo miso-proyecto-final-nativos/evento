@@ -61,6 +61,7 @@ export class EventoService {
         BusinessError.NOT_FOUND,
       );
     }
+    evento.idEvento = idEvento;
     return await this.eventoRepository.save(evento);
   }
 
