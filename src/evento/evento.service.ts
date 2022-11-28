@@ -6,13 +6,20 @@ import {
 } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { EventoEntity } from './model/evento.entity';
+import { EventoDeportistaEntity } from './model/evento-deportista.entity';
 
 @Injectable()
 export class EventoService {
+
   constructor(
     @InjectRepository(EventoEntity)
     private readonly eventoRepository: Repository<EventoEntity>,
+    private readonly eventoDeportistaRepository: Repository<EventoDeportistaEntity>,
   ) { }
+
+  async registrarDeportistaEvento(eventoDeportista: EventoDeportistaEntity): Promise<EventoDeportistaEntity> {
+    return await this.eventoDeportistaRepository.save(eventoDeportista);
+  }
 
   async getAllEventos(): Promise<EventoEntity[]> {
     const eventos: EventoEntity[] =

@@ -35,6 +35,8 @@ import { EventoDto } from './dto/evento.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { EventoService } from './evento.service';
 import { EventoEntity } from './model/evento.entity';
+import { EventoDeportistaDto } from './dto/evento-deportista.dto';
+import { EventoDeportistaEntity } from './model/evento-deportista.entity';
 
 @UseInterceptors(BusinessErrorsInterceptor)
 @Controller('evento')
@@ -51,6 +53,22 @@ export class EventoController {
   @HealthCheck()
   async healthCheck() {
     return this.health.check([async () => this.db.pingCheck('database')]);
+  }
+
+  //@UseGuards(AuthGuard)
+  @Post(":idEvento/deportista/:idDeportista")
+  async registrarDeportistaEvento(@Param('idEvento') idEvento: number,
+    @Param('idDeportista') idDeportista: number,
+    @Body() eventoDeportistaDto: EventoDeportistaDto) {
+    await this.validarDeportista(idDeportista);
+    const evento = await this.eventoService.findEventoById(idEvento);
+    eventoDeportistaDto.idDeportista = idDeportista;
+    eventoDeportistaDto.eventos.push(evento);
+    const eventoDeportistaEntity: EventoDeportistaEntity = plainToInstance(
+      EventoDeportistaEntity,
+      EventoDeportistaDto
+    );
+    return await this.eventoService.registrarDeportistaEvento(eventoDeportistaEntity);
   }
 
   @UseGuards(AuthGuard)
@@ -106,6 +124,29 @@ export class EventoController {
   @HttpCode(204)
   async delete(@Param('idEvento') idEvento: number) {
     return await this.eventoService.delete(idEvento);
+  }
+
+  private async validarDeportista(idDeportista: number) {
+    const deportista$ = this.clienteUsuarioService
+      .send({ role: 'user', cmd: 'getById' }, { idDeportista })
+      .pipe(
+        timeout(5000),
+        catchError((err) => {
+          if (err instanceof TimeoutError) {
+            return throwError(() => new RequestTimeoutException());
+          }
+          return throwError(() => err);
+        }),
+      );
+
+    const deportista = await firstValueFrom(deportista$);
+
+    if (!deportista) {
+      throw new BusinessLogicException(
+        `No se encontró un deportista con el id ${idDeportista}`,
+        BusinessError.NOT_FOUND,
+      );
+    }
   }
 
   private async validarEvento(evento: EventoDto) {
