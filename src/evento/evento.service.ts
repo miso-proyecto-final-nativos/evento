@@ -52,13 +52,6 @@ export class EventoService {
     evento: EventoEntity
   ): Promise<EventoEntity> {
     evento.idEvento = +idEvento;
-    /*
-    const persistedEvento: EventoEntity =
-      await this.eventoRepository.findOne({
-        where: { idEvento: idEvento }
-      });
-     */
-    console.log(evento);
     const persistedEvento = await this.eventoRepository.preload(evento);
     if (!persistedEvento) {
       throw new BusinessLogicException(

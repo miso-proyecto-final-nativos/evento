@@ -53,25 +53,25 @@ export class EventoController {
     return this.health.check([async () => this.db.pingCheck('database')]);
   }
 
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Get("sugerencias")
   async getSugerenciasEventos() {
     return await this.eventoService.getSugerenciasEventos();
   }
 
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Get()
   async getAllEventos() {
     return await this.eventoService.getAllEventos();
   }
 
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Get(':idEvento')
   async findEventoById(@Param('idEvento') idEvento: number) {
     return await this.eventoService.findEventoById(idEvento);
   }
 
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Post()
   async create(
     @Body() eventoDto: EventoDto,
@@ -84,7 +84,7 @@ export class EventoController {
     return await this.eventoService.create(eventoEntity);
   }
 
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Put(':idEvento')
   async update(
     @Param('idEvento') idEvento: number,
@@ -101,7 +101,7 @@ export class EventoController {
     );
   }
 
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Delete(':idEvento')
   @HttpCode(204)
   async delete(@Param('idEvento') idEvento: number) {
