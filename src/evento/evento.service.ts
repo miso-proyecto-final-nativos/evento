@@ -58,7 +58,7 @@ export class EventoService {
         where: { idEvento: idEvento }
       });
      */
-
+    console.log(evento);
     const persistedEvento = await this.eventoRepository.preload(evento);
     if (!persistedEvento) {
       throw new BusinessLogicException(
