@@ -14,6 +14,12 @@ export class EventoService {
     private readonly eventoRepository: Repository<EventoEntity>,
   ) { }
 
+  async getAllEventos(): Promise<EventoEntity[]> {
+    const eventos: EventoEntity[] =
+      await this.eventoRepository.find();
+    return eventos;
+  }
+
   async findEventoById(
     idEvento: number,
   ): Promise<EventoEntity> {

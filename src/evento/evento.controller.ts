@@ -53,7 +53,13 @@ export class EventoController {
     return this.health.check([async () => this.db.pingCheck('database')]);
   }
 
-  @UseGuards(AuthGuard)
+  //@UseGuards(AuthGuard)
+  @Get()
+  async getAllEventos() {
+    return await this.eventoService.getAllEventos();
+  }
+
+  //@UseGuards(AuthGuard)
   @Get(':idEvento')
   async findEventoById(@Param('idEvento') idEvento: number) {
     return await this.eventoService.findEventoById(idEvento);
