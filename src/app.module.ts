@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { configuration } from './config/configuration';
 import { EventoEntity } from './evento/model/evento.entity';
 import { EventoModule } from './evento/evento.module';
+import { EventoDeportistaEntity } from './evento/model/evento-deportista.entity';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { EventoModule } from './evento/evento.module';
         username: configService.get<string>('database.user'),
         password: configService.get<string>('database.password'),
         synchronize: true,
-        entities: [EventoEntity],
+        entities: [EventoEntity, EventoDeportistaEntity],
       }),
       inject: [ConfigService],
     }),

@@ -7,6 +7,7 @@ import { EventoEntity } from './model/evento.entity';
 import { EventoService } from './evento.service';
 import { EventoController } from './evento.controller';
 import { TerminusModule } from '@nestjs/terminus';
+import { EventoDeportistaEntity } from './model/evento-deportista.entity';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { TerminusModule } from '@nestjs/terminus';
         }.env`,
       load: [configuration],
     }),
-    TypeOrmModule.forFeature([EventoEntity, EventoEntity]),
+    TypeOrmModule.forFeature([EventoEntity, EventoDeportistaEntity]),
     TerminusModule,
   ],
   providers: [
