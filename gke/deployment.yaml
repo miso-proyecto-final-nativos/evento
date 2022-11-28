@@ -111,7 +111,7 @@ metadata:
   annotations:
     cloud.google.com/backend-config: '{"default": "sportapp-evento-backendconfig"}'
 spec:
-  type: ClusterIp
+  type: ClusterIP
   selector:
     app: ms-evento
   ports:
