@@ -51,17 +51,22 @@ export class EventoService {
     idEvento: number,
     evento: EventoEntity
   ): Promise<EventoEntity> {
+    evento.idEvento = idEvento;
+    /*
     const persistedEvento: EventoEntity =
       await this.eventoRepository.findOne({
         where: { idEvento: idEvento }
       });
+     */
+
+    const persistedEvento = await this.eventoRepository.preload(evento);
     if (!persistedEvento) {
       throw new BusinessLogicException(
         'No se encontró un evento con el id suministrado',
         BusinessError.NOT_FOUND,
       );
     }
-    return await this.eventoRepository.save({ idEvento: idEvento, evento });
+    return await this.eventoRepository.save(persistedEvento);
   }
 
   async delete(idEvento: number) {
