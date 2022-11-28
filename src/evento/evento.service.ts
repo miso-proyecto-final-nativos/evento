@@ -61,10 +61,7 @@ export class EventoService {
         BusinessError.NOT_FOUND,
       );
     }
-    return await this.eventoRepository.save({
-      ...persistedEvento,
-      ...evento
-    });
+    return await this.eventoRepository.save(evento);
   }
 
   async delete(idEvento: number) {
