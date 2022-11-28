@@ -20,6 +20,12 @@ export class EventoService {
     return eventos;
   }
 
+  async getSugerenciasEventos(): Promise<EventoEntity[]> {
+    const eventos: EventoEntity[] =
+      await this.eventoRepository.find();
+    return eventos.filter(x => x.idEvento % getRandomInt(3) === 0)
+  }
+
   async findEventoById(
     idEvento: number,
   ): Promise<EventoEntity> {
@@ -75,3 +81,7 @@ export class EventoService {
     await this.eventoRepository.delete(evento);
   }
 }
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
+

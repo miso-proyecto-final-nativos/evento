@@ -54,6 +54,12 @@ export class EventoController {
   }
 
   //@UseGuards(AuthGuard)
+  @Get("sugerencias")
+  async getSugerenciasEventos() {
+    return await this.eventoService.getSugerenciasEventos();
+  }
+
+  //@UseGuards(AuthGuard)
   @Get()
   async getAllEventos() {
     return await this.eventoService.getAllEventos();
