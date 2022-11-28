@@ -61,9 +61,7 @@ export class EventoService {
         BusinessError.NOT_FOUND,
       );
     }
-    evento.idEvento = idEvento;
-    console.log(evento);
-    return await this.eventoRepository.save(evento);
+    return await this.eventoRepository.save({ idEvento: idEvento, evento });
   }
 
   async delete(idEvento: number) {
