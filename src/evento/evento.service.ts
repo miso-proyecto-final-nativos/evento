@@ -51,7 +51,7 @@ export class EventoService {
     idEvento: number,
     evento: EventoEntity
   ): Promise<EventoEntity> {
-    evento.idEvento = idEvento;
+    evento.idEvento = +idEvento;
     /*
     const persistedEvento: EventoEntity =
       await this.eventoRepository.findOne({

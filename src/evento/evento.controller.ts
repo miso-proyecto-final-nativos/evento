@@ -74,11 +74,9 @@ export class EventoController {
   // @UseGuards(AuthGuard)
   @Post()
   async create(
-    @Param('idEvento') idEvento: number,
     @Body() eventoDto: EventoDto,
   ) {
     await this.validarEvento(eventoDto);
-    eventoDto.idEvento = +idEvento;
     const eventoEntity: EventoEntity = plainToInstance(
       EventoEntity,
       eventoDto,
@@ -93,7 +91,6 @@ export class EventoController {
     @Body() eventoDto: EventoDto,
   ) {
     await this.validarEvento(eventoDto);
-    eventoDto.idEvento = idEvento;
     const eventoEntity: EventoEntity = plainToInstance(
       EventoEntity,
       eventoDto,
