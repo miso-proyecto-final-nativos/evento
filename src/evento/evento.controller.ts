@@ -78,7 +78,7 @@ export class EventoController {
     @Body() eventoDto: EventoDto,
   ) {
     await this.validarEvento(eventoDto);
-    eventoDto.idEvento = idEvento;
+    eventoDto.idEvento = +idEvento;
     const eventoEntity: EventoEntity = plainToInstance(
       EventoEntity,
       eventoDto,
