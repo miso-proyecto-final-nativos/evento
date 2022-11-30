@@ -78,7 +78,8 @@ describe('EventoService', () => {
       comida: faker.company.name(),
       estadia: faker.commerce.product(),
       idEvento: 2,
-      idDeporte: 1
+      idDeporte: 1,
+      eventosDeportistas: []
     };
 
     eventoNuevo = await service.create(eventoNuevo);

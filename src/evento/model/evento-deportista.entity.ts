@@ -16,7 +16,6 @@ export class EventoDeportistaEntity {
   tiempoEmpleado: number;
 
 
-  @ManyToMany(() => EventoEntity)
-  @JoinTable()
+  @ManyToMany(() => EventoEntity, (evento) => evento.eventosDeportistas)
   eventos: EventoEntity[]
 }

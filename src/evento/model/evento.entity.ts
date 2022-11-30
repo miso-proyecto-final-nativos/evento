@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { EventoDeportistaEntity } from './evento-deportista.entity';
 
 @Entity()
 export class EventoEntity {
@@ -31,4 +32,8 @@ export class EventoEntity {
 
   @Column()
   idDeporte: number;
+
+  @JoinTable()
+  @ManyToMany(() => EventoDeportistaEntity, (eventoDeportista) => eventoDeportista.eventos)
+  eventosDeportistas: EventoDeportistaEntity[];
 }
