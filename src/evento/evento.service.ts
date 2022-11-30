@@ -24,7 +24,7 @@ export class EventoService {
     });
     eventoDeportista.idDeportista = idDeportista;
     evento.eventosDeportistas = [...evento.eventosDeportistas, eventoDeportista];
-    return await this.eventoDeportistaRepository.save(eventoDeportista);
+    await this.eventoRepository.save(evento);
   }
 
   async buscarDeportistaPorEventoId(idEvento: number): Promise<EventoDeportistaEntity[]> {
