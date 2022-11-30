@@ -18,7 +18,7 @@ export class EventoService {
   ) { }
 
   async registrarDeportistaEvento(idEvento: number, idDeportista: number, eventoDeportista: EventoDeportistaEntity): Promise<EventoDeportistaEntity> {
-    const evento = await this.eventoRepository.findOne({
+    const evento: EventoEntity = await this.eventoRepository.findOne({
       where: { idEvento },
       relations: ['eventosDeportistas'],
     });
@@ -26,6 +26,25 @@ export class EventoService {
     evento.eventosDeportistas = [...evento.eventosDeportistas, eventoDeportista];
     return await this.eventoDeportistaRepository.save(eventoDeportista);
   }
+
+  async buscarDeportistaPorEventoId(idEvento: number): Promise<EventoDeportistaEntity[]> {
+    const evento: EventoEntity = await this.eventoRepository.findOne({
+      where: { idEvento },
+      relations: ['eventosDeportistas'],
+    });
+
+    return evento.eventosDeportistas;
+  }
+
+  async buscarDeportistasPorEventoYIdDeportista(idEvento: number, idDeportista: number): Promise<EventoDeportistaEntity[]> {
+    const evento: EventoEntity = await this.eventoRepository.findOne({
+      where: { idEvento },
+      relations: ['eventosDeportistas'],
+    });
+    return evento.eventosDeportistas.filter(x => x.idDeportista == idDeportista);
+  }
+
+
 
   async getAllEventos(): Promise<EventoEntity[]> {
     const eventos: EventoEntity[] =

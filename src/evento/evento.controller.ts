@@ -60,6 +60,16 @@ export class EventoController {
     return await this.eventoService.registrarDeportistaEvento(idEvento, idDeportista, eventoDeportistaEntity);
   }
 
+  @Get(":idEvento/deportista")
+  async buscarDeportistasPorEvento(@Param('idEvento') idEvento: number) {
+    return await this.eventoService.buscarDeportistaPorEventoId(idEvento);
+  }
+
+  @Get(":idEvento/deportista/:idDeportista")
+  async buscarDeportistasPorEventoYIdDeportista(@Param('idEvento') idEvento: number, @Param('idDeportista') idDeportista: number) {
+    return await this.eventoService.buscarDeportistasPorEventoYIdDeportista(idEvento, idDeportista);
+  }
+
   //@UseGuards(AuthGuard)
   @Get("sugerencias")
   async getSugerenciasEventos() {
