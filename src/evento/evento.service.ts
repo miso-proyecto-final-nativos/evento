@@ -18,8 +18,7 @@ export class EventoService {
   ) { }
 
   async registrarDeportistaEvento(idEvento: number, idDeportista: number, eventoDeportista: EventoDeportistaEntity): Promise<EventoDeportistaEntity> {
-    const evento = await this.findEventoById(+idEvento);
-    await this.eventoRepository.findOne({
+    const evento = await this.eventoRepository.findOne({
       where: { idEvento },
       relations: ['eventosDeportistas'],
     });
