@@ -14,19 +14,19 @@ export class EventoEntity {
   @Column()
   ciudad: string;
 
-  @Column()
+  @Column({ nullable: true })
   fechaInicio: Date;
 
-  @Column()
+  @Column({ nullable: true })
   fechaFin: Date;
 
-  @Column()
+  @Column({ nullable: true })
   comida: string;
 
-  @Column()
+  @Column({ nullable: true })
   estadia: string;
 
-  @Column()
+  @Column({ nullable: true })
   imagen: string;
 
   @Column()
