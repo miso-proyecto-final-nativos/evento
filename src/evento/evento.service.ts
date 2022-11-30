@@ -23,7 +23,7 @@ export class EventoService {
       relations: ['eventosDeportistas'],
     });
     eventoDeportista.idDeportista = idDeportista;
-    this.eventoDeportistaRepository.save(eventoDeportista);
+    await this.eventoDeportistaRepository.save(eventoDeportista);
     evento.eventosDeportistas = [...evento.eventosDeportistas, eventoDeportista];
     return await this.eventoRepository.save(evento);
   }
