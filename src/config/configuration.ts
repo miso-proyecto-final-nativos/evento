@@ -15,7 +15,7 @@ export const configuration = () => ({
   database: {
     host: process.env.DATABASE_HOST,
     port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
-    dbName: process.env.DATABASE_NAME,
+    dbName: 'evento',
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
   },
