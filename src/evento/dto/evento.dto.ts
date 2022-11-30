@@ -17,7 +17,19 @@ export class EventoDto {
   ciudad: string;
 
   @IsDate()
-  fecha: Date;
+  fechaInicio: Date;
+
+  @IsDate()
+  fechaFin: Date;
+
+  @IsString()
+  comida: string;
+
+  @IsString()
+  estadia: string;
+
+  @IsString()
+  imagen: string;
 
   @IsNumber()
   @IsNotEmpty()

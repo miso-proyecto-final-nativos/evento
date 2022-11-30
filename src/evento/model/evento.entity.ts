@@ -15,7 +15,19 @@ export class EventoEntity {
   ciudad: string;
 
   @Column()
-  fecha: Date;
+  fechaInicio: Date;
+
+  @Column()
+  fechaFin: Date;
+
+  @Column()
+  comida: string;
+
+  @Column()
+  estadia: string;
+
+  @Column()
+  imagen: string;
 
   @Column()
   idDeporte: number;
