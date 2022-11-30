@@ -13,7 +13,4 @@ export class EventoDeportistaDto {
 
     @IsNumber()
     tiempoEmpelado: number;
-
-    @IsArray()
-    eventos?: EventoDto[];
 }

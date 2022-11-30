@@ -34,4 +34,5 @@ export class EventoDto {
   @IsNumber()
   @IsNotEmpty()
   idDeporte: number;
+
 }
