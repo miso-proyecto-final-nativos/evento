@@ -19,6 +19,10 @@ export class EventoService {
 
   async registrarDeportistaEvento(idEvento: number, idDeportista: number, eventoDeportista: EventoDeportistaEntity): Promise<EventoDeportistaEntity> {
     const evento = await this.findEventoById(+idEvento);
+    await this.eventoRepository.findOne({
+      where: { idEvento },
+      relations: ['eventosDeportistas'],
+    });
     eventoDeportista.idDeportista = idDeportista;
     evento.eventosDeportistas = [...evento.eventosDeportistas, eventoDeportista];
     return await this.eventoDeportistaRepository.save(eventoDeportista);
