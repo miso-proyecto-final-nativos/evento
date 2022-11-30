@@ -34,6 +34,6 @@ export class EventoEntity {
   idDeporte: number;
 
   @JoinTable()
-  @ManyToMany(() => EventoDeportistaEntity, (eventoDeportista) => eventoDeportista.eventos)
+  @ManyToMany(() => EventoDeportistaEntity)
   eventosDeportistas: EventoDeportistaEntity[];
 }

@@ -54,7 +54,7 @@ export class EventoController {
     @Body() eventoDeportistaDto: EventoDeportistaDto) {
     const eventoDeportistaEntity: EventoDeportistaEntity = plainToInstance(
       EventoDeportistaEntity,
-      EventoDeportistaDto
+      eventoDeportistaDto
     );
     await this.validarDeportista(idDeportista);
     return await this.eventoService.registrarDeportistaEvento(idEvento, idDeportista, eventoDeportistaEntity);
