@@ -17,14 +17,14 @@ export class EventoService {
     private readonly eventoDeportistaRepository: Repository<EventoDeportistaEntity>
   ) { }
 
-  async registrarDeportistaEvento(idEvento: number, idDeportista: number, eventoDeportista: EventoDeportistaEntity): Promise<EventoDeportistaEntity> {
+  async registrarDeportistaEvento(idEvento: number, idDeportista: number, eventoDeportista: EventoDeportistaEntity): Promise<EventoEntity> {
     const evento: EventoEntity = await this.eventoRepository.findOne({
       where: { idEvento },
       relations: ['eventosDeportistas'],
     });
     eventoDeportista.idDeportista = idDeportista;
     evento.eventosDeportistas = [...evento.eventosDeportistas, eventoDeportista];
-    await this.eventoRepository.save(evento);
+    return await this.eventoRepository.save(evento);
   }
 
   async buscarDeportistaPorEventoId(idEvento: number): Promise<EventoDeportistaEntity[]> {
