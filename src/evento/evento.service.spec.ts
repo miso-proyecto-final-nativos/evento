@@ -5,18 +5,24 @@ import { Repository } from 'typeorm';
 import { EventoEntity } from './model/evento.entity';
 import { EventoService } from './evento.service';
 import { faker } from '@faker-js/faker';
-
+import { EventoModule } from './evento.module';
 describe('EventoService', () => {
   let service: EventoService;
   let eventoRepository: Repository<EventoEntity>;
-
   let Ev: Repository<EventoEntity>;
   let evento: EventoEntity;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [...TypeOrmTestingConfig()],
-      providers: [EventoService],
+      providers: [
+        EventoService, {
+          provide: 'USER_MS', useValue: EventoModule
+        },
+        {
+          provide: 'MS_CATALOGO_SERVICE', useValue: EventoModule
+        }
+      ],
     }).compile();
 
     service = module.get<EventoService>(EventoService);

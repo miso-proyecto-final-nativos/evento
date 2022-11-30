@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional, RequestTimeoutException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   BusinessError,
@@ -10,15 +10,17 @@ import { EventoDeportistaEntity } from './model/evento-deportista.entity';
 
 @Injectable()
 export class EventoService {
-
   constructor(
     @InjectRepository(EventoEntity)
     private readonly eventoRepository: Repository<EventoEntity>,
     @InjectRepository(EventoDeportistaEntity)
-    private readonly eventoDeportistaRepository: Repository<EventoDeportistaEntity>,
+    private readonly eventoDeportistaRepository: Repository<EventoDeportistaEntity>
   ) { }
 
-  async registrarDeportistaEvento(eventoDeportista: EventoDeportistaEntity): Promise<EventoDeportistaEntity> {
+  async registrarDeportistaEvento(idEvento: number, idDeportista: number, eventoDeportista: EventoDeportistaEntity): Promise<EventoDeportistaEntity> {
+    const evento = await this.findEventoById(+idEvento);
+    eventoDeportista.idDeportista = idDeportista;
+    eventoDeportista.eventos = [...eventoDeportista.eventos, evento];
     return await this.eventoDeportistaRepository.save(eventoDeportista);
   }
 
@@ -87,4 +89,3 @@ export class EventoService {
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
-

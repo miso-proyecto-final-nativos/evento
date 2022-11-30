@@ -9,6 +9,48 @@ import { EventoController } from './evento.controller';
 import { TerminusModule } from '@nestjs/terminus';
 import { EventoDeportistaEntity } from './model/evento-deportista.entity';
 
+
+const catalogoService = {
+  provide: 'MS_CATALOGO_SERVICE',
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService) =>
+    ClientProxyFactory.create({
+      transport: Transport.TCP,
+      options: {
+        host: configService.get<string>('catalogo_microservice.host'),
+        port: configService.get<number>('catalogo_microservice.port'),
+      },
+    }),
+};
+
+const authService =
+{
+  provide: 'AUTH_CLIENT',
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService) =>
+    ClientProxyFactory.create({
+      transport: Transport.TCP,
+      options: {
+        host: configService.get<string>('auth_microservice.host'),
+        port: configService.get<number>('auth_microservice.port'),
+      },
+    }),
+}
+
+const userService =
+{
+  provide: 'USER_MS',
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService) =>
+    ClientProxyFactory.create({
+      transport: Transport.TCP,
+      options: {
+        host: configService.get<string>('usuario_microservice.host'),
+        port: configService.get<number>('usuario_microservice.port'),
+      },
+    }),
+};
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,47 +59,15 @@ import { EventoDeportistaEntity } from './model/evento-deportista.entity';
       load: [configuration],
     }),
     TypeOrmModule.forFeature([EventoEntity, EventoDeportistaEntity]),
-    TerminusModule,
+    TerminusModule
   ],
   providers: [
-    {
-      provide: 'MS_CATALOGO_SERVICE',
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        ClientProxyFactory.create({
-          transport: Transport.TCP,
-          options: {
-            host: configService.get<string>('catalogo_microservice.host'),
-            port: configService.get<number>('catalogo_microservice.port'),
-          },
-        }),
-    },
-    {
-      provide: 'AUTH_CLIENT',
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        ClientProxyFactory.create({
-          transport: Transport.TCP,
-          options: {
-            host: configService.get<string>('auth_microservice.host'),
-            port: configService.get<number>('auth_microservice.port'),
-          },
-        }),
-    },
-    {
-      provide: 'USER_MS',
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        ClientProxyFactory.create({
-          transport: Transport.TCP,
-          options: {
-            host: configService.get<string>('usuario_microservice.host'),
-            port: configService.get<number>('usuario_microservice.port'),
-          },
-        }),
-    },
     EventoService,
+    catalogoService,
+    authService,
+    userService
   ],
   controllers: [EventoController],
 })
+
 export class EventoModule { }
